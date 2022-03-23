@@ -1,0 +1,99 @@
+
+version: "3"
+services:
+
+  memtier:
+    image: redislabs/memtier_benchmark:latest
+    container_name: memtier
+    hostname: memtier
+    entrypoint: "sleep infinity"
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.4
+    restart: "no"
+
+  keydb-master:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.5
+      - INSTANCE_TYPE=master
+    container_name: keydb-master
+    hostname: keydb-master
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.5
+    restart: "no"
+
+  keydb-replica1:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.6
+      - INSTANCE_TYPE=replica
+    container_name: keydb-replica1
+    hostname: keydb-replica1
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.6
+    restart: "no"
+
+  keydb-replica2:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.7
+      - INSTANCE_TYPE=replica
+    container_name: keydb-replica2
+    hostname: keydb-replica2
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.7
+    restart: "no"
+
+  keydb-sentinel1:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.8
+      - INSTANCE_TYPE=sentinel
+    container_name: keydb-sentinel1
+    hostname: keydb-sentinel1
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.8
+    restart: "no"
+
+  keydb-sentinel2:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.9
+      - INSTANCE_TYPE=sentinel
+    container_name: keydb-sentinel2
+    hostname: keydb-sentinel2
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.9
+    restart: "no"
+
+  keydb-sentinel3:
+    image: keydb:latest
+    environment:
+      - MASTER_IP=10.5.0.5
+      - SELF_IP=10.5.0.10
+      - INSTANCE_TYPE=sentinel
+    container_name: keydb-sentinel3
+    hostname: keydb-sentinel3
+    networks:
+      keydb-network:
+        ipv4_address: 10.5.0.10
+    restart: "no"
+
+networks:
+  keydb-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.5.0.0/24
