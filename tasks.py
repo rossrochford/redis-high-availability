@@ -217,3 +217,5 @@ def stop_monitors(ctx):
 # Docker example of cluster: https://github.com/Grokzen/docker-redis-cluster
 
 # some notes on networking issues when using docker, may also apply to Nomad: https://redis.io/topics/sentinel#sentinel-docker-nat-and-possible-issues
+
+# useful article: https://severalnines.com/database-blog/hash-slot-resharding-and-rebalancing-redis-cluster
